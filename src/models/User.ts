@@ -25,9 +25,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  transaction :[{
+  balance:{
+    type: Number,
+    required: true,
+  },
+  transactions :[{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Transaction"
+    ref: "Transaction",
+    default:[]
   }]
 })
 
