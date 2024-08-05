@@ -12,11 +12,11 @@ export async function POST (req:NextRequest) {
   }
   try {
     const reqData = await req.json();
-    const {name,email,role,password,amount} = reqData;
+    const {name,email,role,password,balance} = reqData;
     const accountNo = accountNumberGenerator();
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(name,accountNo,role,email,hashedPassword);
-    const user = await User.create({name,accountNo,role,email,password:hashedPassword,amount});
+    // console.log(name,accountNo,role,email,hashedPassword);
+    const user = await User.create({name,accountNo,role,email,password:hashedPassword,balance});
     user.password = null;
     return NextResponse.json({success: true,data: user,message:"User created successfully"},{status:200});
   } catch (error) {
