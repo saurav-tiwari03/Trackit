@@ -8,9 +8,9 @@ connect();
 export async function POST(req: NextRequest) {
   try {
     const reqData = await req.json();
-    const { email, password } = reqData;
+    const { accountNo,email, password } = reqData;
 
-    const user = await User.findOne({email});
+    const user = await User.findOne({$or : [{accountNo},{email}]});
     if (!user) {
       throw new Error("User not found");
     }

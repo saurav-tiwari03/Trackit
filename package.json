@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
+    "@tabler/icons-react": "^3.11.0",
+    "axios": "^1.7.3",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "framer-motion": "^11.3.21",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.424.0",
     "mongoose": "^8.5.2",
