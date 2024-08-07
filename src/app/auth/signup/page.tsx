@@ -19,7 +19,7 @@ export default function Page () {
   const router = useRouter();
 
   useEffect(() => {
-    if (localStorage.getItem('user')) {
+    if (window.localStorage.getItem('user')) {
       router.push('/')
     }
   })

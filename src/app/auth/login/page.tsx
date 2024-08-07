@@ -16,7 +16,7 @@ export default function Login () {
   const router = useRouter();
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
+    const user = window.localStorage.getItem('user');
     if (user) {
       router.push('/')
     }
@@ -30,7 +30,7 @@ export default function Login () {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`,{email,password});
       console.log(response.data)
       const data = response.data
-      localStorage.setItem('user',JSON.stringify(data.data))
+      window.localStorage.setItem('user',JSON.stringify(data.data))
       router.push('/')
     } catch (error) {
       console.log(error)

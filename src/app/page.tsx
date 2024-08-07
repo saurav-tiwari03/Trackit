@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const router = useRouter();
-  let [user,setUser] = useState(JSON.parse(localStorage.getItem('user')!));
+  let [user,setUser] = useState(JSON.parse(window.localStorage.getItem('user')!));
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -33,7 +33,7 @@ export default function Home() {
   });
 
   const logoutHandler = () => {
-    localStorage.removeItem('user');
+    window.localStorage.removeItem('user');
     router.push('/auth/login');
   }
   console.log(user.data)

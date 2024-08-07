@@ -71,7 +71,7 @@ export default function Page() {
         return;
       }
       setMessage(data.message)
-      localStorage.setItem('user',JSON.stringify(data.data))
+      window.localStorage.setItem('user',JSON.stringify(data.data))
       router.push('/')
     } catch (error) {
       console.log(error)

@@ -25,7 +25,7 @@ export default function Page() {
   const {toast} = useToast()
 
   useEffect(() => {
-    const storedAccounts = localStorage.getItem("pastPaidAccounts");
+    const storedAccounts = window.localStorage.getItem("pastPaidAccounts");
     if (storedAccounts) {
       setPastPaidAccounts(JSON.parse(storedAccounts));
     }
@@ -45,7 +45,7 @@ export default function Page() {
       return;
     }
     setPastPaidAccounts(updatedAccounts);
-    localStorage.setItem("pastPaidAccounts", JSON.stringify(updatedAccounts));
+    window.localStorage.setItem("pastPaidAccounts", JSON.stringify(updatedAccounts));
   }
 
   return (
