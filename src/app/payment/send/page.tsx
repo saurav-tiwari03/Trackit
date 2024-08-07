@@ -59,7 +59,7 @@ export default function Page() {
                 {pastPaidAccounts.map((account) => (
                   <li className="flex items-center justify-between" key={account}>
                     <p className="text-xl">{account}</p>
-                    <DialogDemo account={account}/>
+                    <Modal account={account}/>
                   </li>
                 ))}
               </ul>
@@ -75,7 +75,7 @@ type Account = {
   account:string;
 }
 
-export function DialogDemo(account: Account) {
+export function Modal(account: Account) {
   console.log(account.account)
   const data = account.account;
   return (
