@@ -2,6 +2,8 @@ import connect from "@/config/database";
 import User from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 import otpGenerator from 'otp-generator'
+import { sendMail } from "@/config/nodemailer"
+
 connect();
 
 export async function POST (req:NextRequest) {
@@ -16,12 +18,19 @@ export async function POST (req:NextRequest) {
     }
     const user = await User.findOne({ email })
     if(!user) {
-      return NextResponse.json({ success: false, message: 'User not found' })
+      return NextResponse.json({ success: false, message: 'User with this email not found' })
     }
     const otp = generateOtp();
     user.otp = otp;
     await user.save();
-    return NextResponse.json({success:true,otp:otp,message:"Otp sent successfully"})
+    const props = {
+      to:user.email,
+      subject:"Otp for login",
+      otp:otp
+    }
+    sendMail(props)
+    
+    return NextResponse.json({success:true,message:"Otp sent successfully"})
   } catch (error) {
     console.log(error)
     return NextResponse.json({ success: false, message: 'Unable to generate OTP' })
@@ -39,7 +48,11 @@ export async function GET (req:NextRequest) {
     }
     console.log(user.otp);
     if(user.otp == otp) {
-      return NextResponse.json({ success: true, message: 'OTP validated successfully' })
+      user.password = undefined;
+      user.otp = undefined;
+      user.role = undefined;
+      user.accountVerified = undefined;
+      return NextResponse.json({ success: true,data:user, message: 'OTP validated successfully' })
     } else {
       return NextResponse.json({ success: false, message: 'Invalid OTP' })
     }

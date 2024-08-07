@@ -20,7 +20,10 @@ export async function POST(req: NextRequest) {
       throw new Error("Invalid credentials");
     }
 
-    user.password = null;
+    user.password = undefined;
+    user.otp = undefined;
+    user.role = undefined;
+    user.accountVerified = undefined;
     return NextResponse.json({ success: true, data: user, message: "Login successful" }, { status: 200 });
   } catch (error:any) {
     console.log(error);
