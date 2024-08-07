@@ -29,7 +29,6 @@ export async function POST (req:NextRequest) {
       otp:otp
     }
     sendMail(props)
-    
     return NextResponse.json({success:true,message:"Otp sent successfully"})
   } catch (error) {
     console.log(error)
@@ -46,7 +45,6 @@ export async function GET (req:NextRequest) {
     if(!user) {
       return NextResponse.json({ success: false, message: 'Server error please try after sometime' })
     }
-    console.log(user.otp);
     if(user.otp == otp) {
       user.password = undefined;
       user.otp = undefined;

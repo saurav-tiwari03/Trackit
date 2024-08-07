@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const sendMail = async (props: Props) => {
-
+  console.log("Nodemailer started working")
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     host: process.env.MAIL_HOST,
@@ -32,7 +32,7 @@ export const sendMail = async (props: Props) => {
   try {
     const response = await transporter.sendMail(mailOptions);
     console.log('Email sent successfully');
-    // console.log(response.response);
+    console.log(response.response);
   } catch (error) {
     console.error('Error sending email');
     console.log(error);
