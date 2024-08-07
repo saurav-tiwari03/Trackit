@@ -14,12 +14,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { useToast } from "@/components/ui/use-toast"
+
 
 
 export default function Page() {
 
   const [accountNo, setAccountNo] = useState('');
   const [pastPaidAccounts, setPastPaidAccounts] = useState<string[]>([]);
+  const {toast} = useToast()
 
   useEffect(() => {
     const storedAccounts = localStorage.getItem("pastPaidAccounts");
@@ -33,6 +36,14 @@ export default function Page() {
     console.log('Form submitted');
 
     const updatedAccounts = [...pastPaidAccounts, accountNo];
+    if(updatedAccounts.includes(accountNo)){
+      toast({
+        title: "Please check past payment",
+        description: "",
+      })
+      // alert('Account number already exists');
+      return;
+    }
     setPastPaidAccounts(updatedAccounts);
     localStorage.setItem("pastPaidAccounts", JSON.stringify(updatedAccounts));
   }
@@ -93,13 +104,14 @@ function Modal(account: Account) {
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="name" className="text-right" >
               Account
             </Label>
+            
             <Input
-              id="name"
+              id="account-label"
               defaultValue={data}
-              className="col-span-3"
+              className="col-span-3 cursor-no-drop	"
               readOnly
             />
           </div>

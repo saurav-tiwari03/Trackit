@@ -37,6 +37,9 @@ const userSchema = new mongoose.Schema({
   qrCodeUrl:{
     type: String,
     default: null,
+  },
+  otp:{
+    type:Number,
   }
 })
 
