@@ -8,6 +8,14 @@ import {
 } from "@/components/ui/input-otp"
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button'
+import axios from 'axios'
+
+type response = {
+  data:{
+    message: string,
+    otp: string
+  }
+}
 
 
 export default function Page() {
@@ -15,20 +23,25 @@ export default function Page() {
 
   let [message,setMessage] = useState('')
   const [error,setError] = useState('')
-  let [otp, setOtp] = useState("")
   const [email,setEmail] = useState('')
-  const [data, setData] = useState("")
+  const [otp, setOtp] = useState("")
 
-  const sendMessageHandler = () => {
+  const sendMessageHandler = async() => {
     if(!email){
       setError('Please enter an email!')
       return; 
     }
-    setMessage('OTP sent successfully!')
+    const response:response = await axios.post(`http://localhost:3000/api/auth/otp`,{email})
+    const data = response.data
+    setMessage(data.message)
+    console.log(data.otp);
   }
   
-  function verifyOtpHandler () {
-    console.log(data);
+  async function verifyOtpHandler () {
+    const response:response = await axios.get(`http://localhost:3000/api/auth/otp?email=${email}&otp=${otp}`) 
+    const data = response.data;
+    console.log(data.message);
+    setMessage(data.message)
   }
   return (
     <div className='flex items-center justify-center h-screen'>
@@ -43,7 +56,7 @@ export default function Page() {
         <div className=''>
           <InputOTP maxLength={4}
             onChange={(value) => {
-              setData(value)
+              setOtp(value)
             }}>
             <InputOTPGroup>
               <InputOTPSlot index={0} />
