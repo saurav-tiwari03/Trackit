@@ -16,12 +16,11 @@ export default function Login () {
   const router = useRouter();
 
   useEffect(() => {
-    const user = window.localStorage.getItem('user');
+    const user = JSON.parse(localStorage.getItem('user')!);
     if (user) {
       router.push('/')
     }
-  })
-
+  },[])
 
   const submitHandler = async(e:any) => {
     e.preventDefault();
@@ -30,7 +29,7 @@ export default function Login () {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`,{email,password});
       console.log(response.data)
       const data = response.data
-      window.localStorage.setItem('user',JSON.stringify(data.data))
+      localStorage.setItem('user',JSON.stringify(data.data))
       router.push('/')
     } catch (error) {
       console.log(error)

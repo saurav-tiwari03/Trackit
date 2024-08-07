@@ -4,42 +4,32 @@ import { HoverEffect } from "@/components/ui/card-hover-effect";
 import Link from 'next/link';
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Bounce, ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Button } from "@/components/ui/button";
+
+type User = {
+  name: string,
+}
 
 export default function Home() {
   const router = useRouter();
-  let [user,setUser] = useState(JSON.parse(window.localStorage.getItem('user')!));
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (!user) {
-        router.push('/auth/login');
-      } else {
-        toast('Welcome to trackit', {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-          });
-      }
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      router.push('/auth/login');
     }
-  });
+  }, [router]);
 
   const logoutHandler = () => {
-    window.localStorage.removeItem('user');
+    localStorage.removeItem('user');
     router.push('/auth/login');
   }
-  console.log(user.data)
 
   return (
-    <div className="max-w-5xl mx-auto px-8 flex flex-col items-center justify-center h-screen">
+    <div className="max-w-5xl mx-auto px-8 flex flex-col items-center justify-center min-h-screen">
       {
       user ?
         <div className="items-center fixed top-4 right-4 flex gap-4">
@@ -51,12 +41,11 @@ export default function Home() {
           <Link className="hover:underline" href='/auth/signup'>Signup</Link>
         </div>
       }
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4 mt-16">
         <h1 className="font-Merienda text-5xl">Trackit</h1>
         <p className="font-Poppins">A real-time web app to manage the flow of exchange</p>
       </div>
       <HoverEffect items={projects} />
-      <ToastContainer />
     </div>
   );
 }
