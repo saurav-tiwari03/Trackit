@@ -62,7 +62,7 @@ export default function Page() {
               <li>Loading...</li>
             ) : transactionData? (
               <li>
-                Transaction ID: {transactionData.id}
+                Transaction ID: {transactionData._id}
                 <br />
                 Amount: {transactionData.amount}
                 <br />

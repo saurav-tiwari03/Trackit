@@ -33,7 +33,11 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Transaction",
     default:[]
-  }]
+  }],
+  qrCodeUrl:{
+    type: String,
+    default: null,
+  }
 })
 
 const User = mongoose.models.users || mongoose.model("users",userSchema);
