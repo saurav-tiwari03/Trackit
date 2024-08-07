@@ -8,7 +8,7 @@ export default function Home() {
     </div>
   );
 }
-export const projects = [
+const projects = [
   {
     title: "Make Payment",
     description:
