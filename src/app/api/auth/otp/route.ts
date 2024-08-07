@@ -29,6 +29,7 @@ export async function POST (req:NextRequest) {
       otp:otp
     }
     sendMail(props)
+    console.log('OTP send successfully')
     return NextResponse.json({success:true,message:"Otp sent successfully"})
   } catch (error) {
     console.log(error)
@@ -50,8 +51,10 @@ export async function GET (req:NextRequest) {
       user.otp = undefined;
       user.role = undefined;
       user.accountVerified = undefined;
+      console.log('Otp validated successfully')
       return NextResponse.json({ success: true,data:user, message: 'OTP validated successfully' })
     } else {
+      console.log('Invalid OTP')
       return NextResponse.json({ success: false, message: 'Invalid OTP' })
     }
   } catch (error) {
