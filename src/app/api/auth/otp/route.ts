@@ -28,7 +28,8 @@ export async function POST (req:NextRequest) {
       subject:"Otp for login",
       otp:otp
     }
-    sendMail(props)
+    console.log('Sending otp')
+    await sendMail(props)
     console.log('OTP send successfully')
     return NextResponse.json({success:true,message:"Otp sent successfully"})
   } catch (error) {
@@ -42,6 +43,11 @@ export async function GET (req:NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const otp = searchParams.get('otp');
     const email = searchParams.get('email');
+    console.log({email, otp});
+    if(!email || !otp) {
+      console.log('Email or OTP not found');
+      return;
+    }
     const user = await User.findOne({ email});
     if(!user) {
       return NextResponse.json({ success: false, message: 'Server error please try after sometime' })
