@@ -75,7 +75,7 @@ type Account = {
   account:string;
 }
 
-export function Modal(account: Account) {
+function Modal(account: Account) {
   console.log(account.account)
   const data = account.account;
   return (
