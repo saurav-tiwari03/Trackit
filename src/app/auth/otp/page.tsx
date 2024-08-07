@@ -31,14 +31,14 @@ export default function Page() {
       setError('Please enter an email!')
       return; 
     }
-    const response:response = await axios.post(`http://localhost:3000/api/auth/otp`,{email})
+    const response:response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/otp`,{email})
     const data = response.data
     setMessage(data.message)
     console.log(data.otp);
   }
   
   async function verifyOtpHandler () {
-    const response:response = await axios.get(`http://localhost:3000/api/auth/otp?email=${email}&otp=${otp}`) 
+    const response:response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/auth/otp?email=${email}&otp=${otp}`) 
     const data = response.data;
     console.log(data.message);
     setMessage(data.message)
