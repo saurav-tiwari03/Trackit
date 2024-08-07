@@ -29,6 +29,8 @@ export const sendMail = async (props: Props) => {
     `,
   };
 
+  console.log("Entering try catch block")
+
   try {
     const response = await transporter.sendMail(mailOptions);
     console.log('Email sent successfully');
