@@ -79,7 +79,7 @@ export function DialogDemo(account: Account) {
   console.log(account.account)
   const data = account.account;
   return (
-  <>
+  <div>
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="link">Make payment</Button>
@@ -119,6 +119,6 @@ export function DialogDemo(account: Account) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  </>
+  </div>
   )
 }
