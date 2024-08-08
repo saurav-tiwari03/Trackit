@@ -153,29 +153,40 @@ export default function Page() {
   );
 }
 
-function ConfirmPayment({ account, exist }: AccountProps) { 
-  const user = JSON.parse(localStorage.getItem('user')!);
-  let message = exist ? "Account exists" : "Account does not exist";
-  const [amount,setAmount] = useState(0);
+function ConfirmPayment({ account, exist }: AccountProps) {
+  const [user, setUser] = useState<User | null>(null);
+  const [amount, setAmount] = useState(0);
   const [isExploding, setIsExploding] = useState(false);
   const { width, height } = useWindowSize();
-  const [paymentStatus,setPaymentStatus] = useState('');
+  const [paymentStatus, setPaymentStatus] = useState('');
 
-  const submitHandler = async() => {
-    try {      
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/transaction/create`,{amount,from:user.accountNo,to:account})
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }
+  }, []);
+
+  const submitHandler = async () => {
+    if (!user) return;
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/transaction/create`, {
+        amount,
+        from: user.accountNo,
+        to: account
+      });
       console.log(response.data);
       setIsExploding(true);
       setPaymentStatus('Completed');
     } catch (error) {
-      console.log(error)
-      setPaymentStatus('Failed')
+      console.log(error);
+      setPaymentStatus('Failed');
     }
   };
 
-  if(!exist) {
-    message = "Account does not exist"
-  }
+  let message = exist ? "Account exists" : "Account does not exist";
 
   return (
     <div>
@@ -230,13 +241,13 @@ function ConfirmPayment({ account, exist }: AccountProps) {
               Send money
             </Button>
           </DialogFooter>
-          <div className={`${paymentStatus == "completed" ? 'text-green-500' :'text-red-500'}`}>{paymentStatus}</div>
+          <div className={`${paymentStatus == "Completed" ? 'text-green-500' : 'text-red-500'}`}>{paymentStatus}</div>
         </DialogContent>
       </Dialog>
-      
     </div>
   );
 }
+
 
 function Modal({ account }: ModalProps) {
   return (
