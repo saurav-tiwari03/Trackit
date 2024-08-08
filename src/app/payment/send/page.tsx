@@ -40,14 +40,14 @@ export default function Page() {
   const [amount, setAmount] = useState<string>("");
   const [pastPaidAccounts, setPastPaidAccounts] = useState<string[]>(() => {
     if (typeof window !== "undefined") {
-      const storedAccounts = window.localStorage.getItem("pastPaidAccounts");
+      const storedAccounts = localStorage.getItem("pastPaidAccounts");
       return storedAccounts ? JSON.parse(storedAccounts) : [];
     }
     return [];
   });
   const [user, setUser] = useState<User | null>(() => {
     if (typeof window !== "undefined") {
-      const storedUser = window.localStorage.getItem("user");
+      const storedUser = localStorage.getItem("user");
       return storedUser ? JSON.parse(storedUser) : null;
     }
     return null;
@@ -60,8 +60,8 @@ export default function Page() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedUser = window.localStorage.getItem("user");
-      const storedAccounts = window.localStorage.getItem("pastPaidAccounts");
+      const storedUser = localStorage.getItem("user");
+      const storedAccounts = localStorage.getItem("pastPaidAccounts");
   
       if (storedUser) {
         setUser(JSON.parse(storedUser));
@@ -103,7 +103,7 @@ export default function Page() {
 
     const updatedAccounts = [...pastPaidAccounts, toAccountNo];
     setPastPaidAccounts(updatedAccounts);
-    window.localStorage.setItem("pastPaidAccounts", JSON.stringify(updatedAccounts));
+    localStorage.setItem("pastPaidAccounts", JSON.stringify(updatedAccounts));
   };
 
   const checkAccountNo = async () => {
@@ -154,7 +154,7 @@ export default function Page() {
 }
 
 function ConfirmPayment({ account, exist }: AccountProps) { 
-  const user = JSON.parse(window.localStorage.getItem('user')!);
+  const user = JSON.parse(localStorage.getItem('user')!);
   let message = exist ? "Account exists" : "Account does not exist";
   const [amount,setAmount] = useState(0);
   const [isExploding, setIsExploding] = useState(false);
