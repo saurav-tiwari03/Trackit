@@ -44,7 +44,7 @@ export default function Home() {
       {
       user ?
         <div className="items-center fixed top-4 right-4 flex gap-4">
-          <Link href={`user/${user.accoutNo}`}>
+          <Link className="flex items-center" href={`/user/${user.accoutNo}`}>
             <p>Hello! {user.name}</p>
             <Button onClick={logoutHandler}>{loading ? <TbLoader className="animate-spin"/> : 'Logout'}</Button>
           </Link>
