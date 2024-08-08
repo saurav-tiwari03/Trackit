@@ -19,7 +19,7 @@ export const sendMail = async (props: Props) => {
   });
 
   const mailOptions = {
-    from: 'dummycoding411@gmail.com',
+    from: 'dummycoding411@trackit.com',
     to: props.to,
     subject: props.subject,
     html: props.html,
