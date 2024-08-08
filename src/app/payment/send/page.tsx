@@ -47,8 +47,8 @@ export default function Page() {
   const [isExploding, setIsExploding] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedAccounts = localStorage.getItem("pastPaidAccounts");
+    const storedUser = window.localStorage.getItem("user");
+    const storedAccounts = window.localStorage.getItem("pastPaidAccounts");
 
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -89,7 +89,7 @@ export default function Page() {
 
     const updatedAccounts = [...pastPaidAccounts, toAccountNo];
     setPastPaidAccounts(updatedAccounts);
-    localStorage.setItem("pastPaidAccounts", JSON.stringify(updatedAccounts));
+    window.localStorage.setItem("pastPaidAccounts", JSON.stringify(updatedAccounts));
   };
 
   const checkAccountNo = async () => {
@@ -140,7 +140,7 @@ export default function Page() {
 }
 
 function ConfirmPayment({ account, exist }: AccountProps) { 
-  const user = JSON.parse(localStorage.getItem('user')!);
+  const user = JSON.parse(window.localStorage.getItem('user')!);
   let message = exist ? "Account exists" : "Account does not exist";
   const [amount,setAmount] = useState(0);
   const [isExploding, setIsExploding] = useState(false);
