@@ -1,17 +1,41 @@
 import mongoose from "mongoose";
 
+const from = new mongoose.Schema({
+  name:{
+    type: String,
+  },
+  email:{
+    type: String,
+  },
+  accountNo:{
+    type: Number,
+  }
+},{_id:false})
+
+const to = new mongoose.Schema({
+  name:{
+    type: String,
+  },
+  email:{
+    type: String,
+  },
+  accountNo:{
+    type: Number,
+  }
+},{_id:false})
+
 const transactionSchema = new mongoose.Schema({
   amount:{
     type: Number,
     required: true,
   },
   from:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    type:from,
+    ref: "from",
     required: true,
   },
   to:{
-    type: mongoose.Schema.Types.ObjectId,
+    type: to,
     ref: "User",
     required: true,
   },
@@ -23,5 +47,6 @@ const transactionSchema = new mongoose.Schema({
 },{timestamps : true})
 
 const Transaction = mongoose.models.transaction || mongoose.model('transaction',transactionSchema);
+
 
 export default Transaction;

@@ -9,16 +9,22 @@ connect();
 export async function POST(req: NextRequest) {
   try {
     const reqData = await req.json();
-    const { amount, from, to } = reqData;
+    let { amount, from, to } = reqData;
 
     if (!amount || !from || !to) {
       return NextResponse.json({ success: false, message: "Invalid request data" }, { status: 400 });
     }
 
-    const user1 = await User.findById(from);
-    const user2 = await User.findById(to);
+    if(from == to){
+      throw new Error('Invalid request')
+    }
 
-    if (!user1 || !user2) {
+    console.log({from, to});
+
+    const user1 = await User.findOne({accountNo:from});
+    const user2 = await User.findOne({accountNo:to});
+
+    if (!user2) {
       return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
     }
 
@@ -28,13 +34,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: "Invalid amount" }, { status: 400 });
     }
 
+    from = {
+      name:user1.name,
+      email:user1.email,
+      accountNo:user1.accountNo
+    }
+
+    to = {
+      name:user2.name,
+      email:user2.email,
+      accountNo:user2.accountNo
+    }
+
     const newAmount1 = parseFloat(user1.balance) - transactionAmount;
     const newAmount2 = parseFloat(user2.balance) + transactionAmount;
 
     user1.balance = newAmount1;
     user2.balance = newAmount2;
 
-    const transaction = await Transaction.create({ amount: transactionAmount, from, to });
+    const transaction = await Transaction.create({ amount: transactionAmount, from, to ,status:"completed"});
 
     user1.transactions.push(transaction._id);
     user2.transactions.push(transaction._id);
