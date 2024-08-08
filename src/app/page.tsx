@@ -20,13 +20,14 @@ export default function Home() {
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user')!);
-    console.log(storedUser.accountNo)
     if (storedUser) { 
+      console.log(storedUser.accountNo);
       setUser(storedUser);
     } else {
       router.push('/auth/login');
     }
   }, [router]);
+  
 
   const logoutHandler = () => {
     setLoading(true);
