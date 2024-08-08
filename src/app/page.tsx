@@ -10,6 +10,7 @@ import { TbLoader } from "react-icons/tb";
 
 type User = {
   name: string,
+  accoutNo:number,
 }
 
 export default function Home() {
@@ -43,8 +44,10 @@ export default function Home() {
       {
       user ?
         <div className="items-center fixed top-4 right-4 flex gap-4">
-          <p>Hello! {user.name}</p>
-          <Button onClick={logoutHandler}>{loading ? <TbLoader className="animate-spin"/> : 'Logout'}</Button>
+          <Link href={`user/${user.accoutNo}`}>
+            <p>Hello! {user.name}</p>
+            <Button onClick={logoutHandler}>{loading ? <TbLoader className="animate-spin"/> : 'Logout'}</Button>
+          </Link>
         </div> : 
         <div className="fixed top-4 right-4 flex gap-4">
           <Link className="hover:underline" href='/auth/login'>Login</Link>
