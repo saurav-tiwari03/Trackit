@@ -2,8 +2,15 @@ import connect from "@/config/database";
 import Transaction from "@/models/Transaction";
 import User from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
+import { sendMail } from "@/config/nodemailer";
 
 connect();
+
+type Props = {
+  to: string,
+  subject: string,
+  html: string
+}
 
 // Make a payment
 export async function POST(req: NextRequest) {
@@ -51,6 +58,27 @@ export async function POST(req: NextRequest) {
 
     user1.balance = newAmount1;
     user2.balance = newAmount2;
+
+    const props1:Props = {
+      to:user1.email,
+      subject:"Transaction details from Trackit",
+      html:`
+      <h1>Hello! ${user1.name}</h1>
+      <p>Dear customer your account ${user1.accountNo} is debited INR ${transactionAmount}</p>
+      <p>Your current balance is ${user1.balance}</p>
+      `
+    }
+    await sendMail(props1)
+    const props2:Props = {
+      to:user1.email,
+      subject:"Transaction details from Trackit",
+      html:`
+      <h1>Hello! ${user2.name}</h1>
+      <p>Dear customer your account ${user2.accountNo} is credited INR ${transactionAmount}</p>
+      <p>Your current balance is ${user2.balance}</p>
+      `
+    }
+    await sendMail(props2)
 
     const transaction = await Transaction.create({ amount: transactionAmount, from, to ,status:"completed"});
 

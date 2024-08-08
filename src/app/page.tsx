@@ -10,7 +10,7 @@ import { TbLoader } from "react-icons/tb";
 
 type User = {
   name: string,
-  accoutNo:number,
+  accountNo:number,
 }
 
 export default function Home() {
@@ -20,6 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user')!);
+    console.log(storedUser.accountNo)
     if (storedUser) { 
       setUser(storedUser);
     } else {
