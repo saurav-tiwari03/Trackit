@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { TbLoader } from "react-icons/tb";
+
 
 type User = {
   name: string,
@@ -13,6 +15,7 @@ type User = {
 export default function Home() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [loading,setLoading] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -24,8 +27,15 @@ export default function Home() {
   }, [router]);
 
   const logoutHandler = () => {
-    localStorage.removeItem('user');
-    router.push('/auth/login');
+    setLoading(true);
+    try {
+      localStorage.removeItem('user');
+      router.push('/auth/login');
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -34,7 +44,7 @@ export default function Home() {
       user ?
         <div className="items-center fixed top-4 right-4 flex gap-4">
           <p>Hello! {user.name}</p>
-          <Button onClick={logoutHandler}>Logout</Button>
+          <Button onClick={logoutHandler}>{loading ? <TbLoader className="animate-spin"/> : 'Logout'}</Button>
         </div> : 
         <div className="fixed top-4 right-4 flex gap-4">
           <Link className="hover:underline" href='/auth/login'>Login</Link>

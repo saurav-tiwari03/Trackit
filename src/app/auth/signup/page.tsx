@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { TbLoader } from "react-icons/tb";
 import {useRouter} from 'next/navigation'
+import Link from "next/link";
 
 
 export default function Page () {
@@ -19,7 +20,8 @@ export default function Page () {
   const router = useRouter();
 
   useEffect(() => {
-    if (window.localStorage.getItem('user')) {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    if (user) {
       router.push('/')
     }
   })
@@ -30,6 +32,8 @@ export default function Page () {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,{name,email,role,password,balance})
       console.log(response.data)
+      const data = response.data
+      localStorage.setItem('user',JSON.stringify(data.data))
       router.push('/')
     } catch (error) {
       console.error(error)
@@ -59,7 +63,8 @@ export default function Page () {
             <Label>Password</Label>
             <Input className="w-[200px]" placeholder="Enter password" onChange={(e) => setPassword(e.target.value)}/>
           </div>
-          <div className="flex justify-end w-full">
+          <div className="flex justify-between w-full items-center">
+            <Link href='/auth/login'><Button variant='outline'>Login</Button></Link>
             <Button onClick={signupHandler}>{loading? <TbLoader className="text-xl animate-spin"/> :'Signup'}</Button>
           </div>
         </div>

@@ -6,6 +6,12 @@ import { sendMail } from "@/config/nodemailer"
 
 connect();
 
+type Props = {
+  to: string,
+  subject: string,
+  html: string
+}
+
 export async function POST (req:NextRequest) {
   function generateOtp() {
     return otpGenerator.generate(4, { upperCaseAlphabets: false,lowerCaseAlphabets :false, specialChars: false });
@@ -23,10 +29,15 @@ export async function POST (req:NextRequest) {
     const otp = generateOtp();
     user.otp = otp;
     await user.save();
-    const props = {
+    const props:Props = {
       to:user.email,
       subject:"Otp for login",
-      otp:otp
+      html:
+      `
+        <h1>OTP verifition</h1>
+        <h3>Hello ${user.name}</h3>
+        <p>Your OTP for login on Trackit is: ${user.otp}</p>
+      `
     }
     console.log('Sending otp')
     await sendMail(props)

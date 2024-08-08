@@ -107,7 +107,7 @@ export default function Page() {
           </InputOTP>
         </div>
         <div>
-          <Button variant='outline' type='submit' onClick={verifyOtpHandler}>{loading2 ? <TbLoader/> : 'Verify'}</Button>
+          <Button variant='outline' type='submit' onClick={verifyOtpHandler}>{loading2 ? <TbLoader className='animate-spin'/> : 'Verify'}</Button>
         </div>
       </div>
     </div>

@@ -52,9 +52,11 @@ export default function Login () {
             <Label>Password </Label>
             <Input className="w-[200px]" placeholder="Enter email" onChange={(e) => setPassword(e.target.value)}/>
           </div>
-        <Button variant="secondary" type="submit">{loading ? <TbLoader className="animate-spin"/> : 'Login'}</Button>
+        <Button variant="default" type="submit">{loading ? <TbLoader className="animate-spin"/> : 'Login'}</Button>
       </form>
-      <div className="w-full justify-end flex">
+      <hr />
+      <div className="w-full justify-between flex items-center my-4">
+        <Link href='/auth/signup'><Button variant="outline">Singup</Button></Link>
         <Link className="text-sm hover:underline" href='/auth/otp'>Login with OTP</Link>
       </div>
     </div>
