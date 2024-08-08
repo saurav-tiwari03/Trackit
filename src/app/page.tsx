@@ -19,9 +19,9 @@ export default function Home() {
   const [loading,setLoading] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const storedUser = JSON.parse(localStorage.getItem('user')!);
+    if (storedUser) { 
+      setUser(storedUser);
     } else {
       router.push('/auth/login');
     }
@@ -44,10 +44,12 @@ export default function Home() {
       {
       user ?
         <div className="items-center fixed top-4 right-4 flex gap-4">
-          <Link className="flex items-center" href={`/user/${user.accoutNo}`}>
-            <p>Hello! {user.name}</p>
+          <div className="flex items-center gap-2">
+            <Link className="flex items-center" href={`/user/${user.accountNo}`}>
+              <p>Hello! {user.name}</p>
+            </Link>
             <Button onClick={logoutHandler}>{loading ? <TbLoader className="animate-spin"/> : 'Logout'}</Button>
-          </Link>
+          </div>
         </div> : 
         <div className="fixed top-4 right-4 flex gap-4">
           <Link className="hover:underline" href='/auth/login'>Login</Link>
