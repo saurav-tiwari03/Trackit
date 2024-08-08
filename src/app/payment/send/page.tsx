@@ -38,8 +38,20 @@ type ModalProps = {
 export default function Page() {
   const [toAccountNo, setToAccountNo] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
-  const [pastPaidAccounts, setPastPaidAccounts] = useState<string[]>([]);
-  const [user, setUser] = useState<User | null>(null);
+  const [pastPaidAccounts, setPastPaidAccounts] = useState<string[]>(() => {
+    if (typeof window !== "undefined") {
+      const storedAccounts = window.localStorage.getItem("pastPaidAccounts");
+      return storedAccounts ? JSON.parse(storedAccounts) : [];
+    }
+    return [];
+  });
+  const [user, setUser] = useState<User | null>(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = window.localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+    return null;
+  });
   const [accountStatus, setAccountStatus] = useState<boolean | null>(null);
   const { toast } = useToast();
   const router = useRouter();
@@ -47,20 +59,22 @@ export default function Page() {
   const [isExploding, setIsExploding] = useState(false);
 
   useEffect(() => {
-    const storedUser = window.localStorage.getItem("user");
-    const storedAccounts = window.localStorage.getItem("pastPaidAccounts");
-
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else {
-      router.push("/auth/login");
-    }
-
-    if (storedAccounts) {
-      setPastPaidAccounts(JSON.parse(storedAccounts));
+    if (typeof window !== "undefined") {
+      const storedUser = window.localStorage.getItem("user");
+      const storedAccounts = window.localStorage.getItem("pastPaidAccounts");
+  
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      } else {
+        router.push("/auth/login");
+      }
+  
+      if (storedAccounts) {
+        setPastPaidAccounts(JSON.parse(storedAccounts));
+      }
     }
   }, [router]);
-
+  
   async function makeTransaction() {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/transaction/create`, {
