@@ -31,7 +31,7 @@ export async function POST(req:NextRequest) {
       html:`
       <h1>Hello! ${userTo.name}</h1>
       <p>${userFrom.name} is request ${amount} INR on Trackit, below is the link for approving request</p>
-      <a href='${process.env.NEXT_PUBLIC_REQUEST_REDIRECT}'>Click here</a>
+      <a href='${process.env.NEXT_PUBLIC_REQUEST_REDIRECT}/payment/send'>Click here</a>
       `
     }
     await sendMail(props);

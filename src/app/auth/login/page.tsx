@@ -20,7 +20,7 @@ export default function Login () {
     if (user) {
       router.push('/')
     }
-  },[])
+  })
 
   const submitHandler = async(e:any) => {
     e.preventDefault();
