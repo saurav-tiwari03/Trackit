@@ -76,7 +76,7 @@ const projects = [
   {
     title: "Receive Payment",
     description: "Show QR code and receive money",
-    link: "/payment/receive",
+    link: "/payment/recieve",
   },
   {
     title: "Payment History",
