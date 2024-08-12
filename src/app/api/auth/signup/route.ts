@@ -22,7 +22,8 @@ export async function POST (req:NextRequest) {
     const {name,email,role,password,balance} = reqData;
     const accountNo = accountNumberGenerator();
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({name,accountNo,role,email,password:hashedPassword,balance});
+    let accountVerifiedToken = (Math.random()).toString(36).substring(2);
+    const user = await User.create({name,accountNo,role,email,password:hashedPassword,balance,accountVerifiedToken});
     user.password = null;
 
     const props:Props = {
@@ -33,6 +34,8 @@ export async function POST (req:NextRequest) {
         <p>Below are the details of your account</p>
         <p>Your account number is: ${user.accountNo}</p>
         <p>Your current balance is: ${user.balance}</p>
+        <p>Below is the link to verify account</p>
+        <a href='${process.env.NEXT_PUBLIC_REQUEST_REDIRECT}/verifyToken/${accountVerifiedToken}'>Click Here</a>
       `
     }
 

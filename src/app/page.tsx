@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { TbLoader } from "react-icons/tb";
+import { ModeToggle } from "@/components/ThemeChanger";
 
 
 type User = {
@@ -47,6 +48,7 @@ export default function Home() {
       user ?
         <div className="items-center fixed top-4 right-4 flex gap-4">
           <div className="flex items-center gap-2">
+            <div><ModeToggle /></div>
             <Link className="flex items-center" href={`/user/${user?.accountNo}`}>
               <p>Hello! {user.name}</p>
             </Link>

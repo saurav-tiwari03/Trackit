@@ -11,6 +11,7 @@ interface IUser extends Document {
   qrCodeUrl?: string | null;
   otp?: number | null;
   accountVerified: boolean;
+  accountVerifiedToken:string | null;
 }
   
 const userSchema:Schema<IUser> = new mongoose.Schema({
@@ -58,6 +59,10 @@ const userSchema:Schema<IUser> = new mongoose.Schema({
   accountVerified: {
     type: Boolean,
     default: false
+  },
+  accountVerifiedToken : {
+    type: String,
+    required: true,
   }
 })
 
