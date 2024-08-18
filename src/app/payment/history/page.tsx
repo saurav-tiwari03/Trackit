@@ -1,85 +1,89 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
+import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { ImSpinner3 } from "react-icons/im";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { GrHomeRounded } from "react-icons/gr";
 
 type Transaction = {
-  id:string;
+  transaction: string;
+  id: string;
   _id: string;
   amount: number;
   from: string;
   to: string;
   createdAt: Date;
   updatedAt: Date;
-  status:["Success","Failed"];
-}
+  status: "Success" | "Failed";
+};
 
 export default function Page() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [transactions, setTransactions] = useState([]);
-  const [transactionData, setTransactionData] = useState<Transaction>();
-  const [paymentFrom,setPaymentFrom] = useState('')
-  const [paymentTo,setPaymentTo] = useState('')
+  const [transactionList, setTransactionList] = useState<Transaction[]>([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  async function getTransactionDetails(id: string) {
-    try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/transaction/get?id=${id}`);
-      console.log(response.data.data);
-      console.log("Get transaction details");
-      setTransactionData(response.data.data);
-    } catch (error) {
-      console.error(error);
-    }
+  const id = JSON.parse(localStorage.getItem("user")!);
+  console.log(id.accountNo);
+
+  if (!id) {
+    router.push("/auth/login");
   }
 
-  async function getUserAccount() {
+  const fetchHistory = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/transaction/user?id=609876`);
-      console.log(response.data.data);
-      setTransactions(response.data.data);
-
-      await Promise.all(
-        response.data.data.map((transaction: any) => getTransactionDetails(transaction))
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/transaction/user?id=${id.accountNo}`
       );
-      
+      console.log(response.data.data);
+      setTransactionList(response.data.data);
     } catch (error) {
-      console.error(error);
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error.response.data.message);
+        setErrorMessage("Error fetching list of transactions");
+      } else {
+        console.log("Unexpected error:", error);
+        setErrorMessage("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    getUserAccount();
-  }, []);
+  };
 
   return (
     <div>
-      <h1 className="text-4xl font-Poppins text-center my-4">Your payment history</h1>
-      <div>
-        <ul>
-          {
-            loading? (
-              <li>Loading...</li>
-            ) : transactionData? (
-              <li>
-                Transaction ID: {transactionData._id}
-                <br />
-                Amount: {transactionData.amount}
-                <br />
-                Status: {transactionData.status}
-              </li>
-            ) : (
-              transactions.map((transaction: any) => (
-                <li key={transaction.id}>
-                  Transaction ID: {transaction.id}
-                  <br />
-                  Amount: {transaction.amount}
-                  <br />
-                  Status: {transaction.status}
-                </li>
-              ))
-            )
-          }
+      <div className="fixed top-4 left-4">
+        <Link className="text-3xl hover:underline" href="/">
+          <GrHomeRounded className="hover:underline" />
+        </Link>
+      </div>
+      <h1 className="text-4xl font-Poppins text-center my-4">
+        Your payment history
+      </h1>
+      <div className="flex justify-center">
+        <Button onClick={fetchHistory}>
+          {loading ? <ImSpinner3 className="text-2xl animate-spin" /> : "Fetch History"}
+        </Button>
+      </div>
+      <div className="flex items-center justify-center flex-col mt-8">
+        <h2 className="font-Poppins font-semibold text-2xl">
+          Here is the list of Transaction ID
+        </h2>
+        <p className="text-lg my-4">Soon this page will be developed completely</p>
+        {errorMessage && (
+          <div className="p-8 border">
+            <p className="text-red-400">{errorMessage}</p>
+          </div>
+        )}
+        <ul className={`${transactionList.length > 0 ? "border p-8" : ""}`}>
+          {transactionList.map((transaction: Transaction) => (
+            <li key={transaction._id}>{transaction}</li>
+          ))}
         </ul>
       </div>
     </div>

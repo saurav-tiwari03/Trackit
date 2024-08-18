@@ -15,6 +15,8 @@ import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { TbLoader } from "react-icons/tb";
+import Link from 'next/link';
+import { GrHomeRounded } from 'react-icons/gr';
 
 
 type User = {
@@ -65,6 +67,11 @@ export default function Page() {
 
   return (
   <div className='flex items-center justify-center h-[80vh]'>
+    <div className="fixed top-4 left-4">
+        <Link className="text-3xl hover:underline" href="/">
+          <GrHomeRounded className="hover:underline" />
+        </Link>
+      </div>
     <div className='flex flex-col gap-4 border-2 border-[#2e2e31] px-4 py-8 rounded-md'>
       <div>
         <h1 className='text-4xl font-Poppins'>Request payment</h1>

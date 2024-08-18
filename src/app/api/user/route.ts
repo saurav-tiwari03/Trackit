@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     if (!accountNo) {
       throw new Error("Account number is required");
     }
-    const user = await User.findOne({ accountNo });
+    const user = await User.findOne({ accountNo }); 
     if(!user) {
       throw new Error("User with this account number not found");
     }
