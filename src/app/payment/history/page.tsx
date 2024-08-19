@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { ImSpinner3 } from "react-icons/im";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -27,7 +27,7 @@ export default function Page() {
   const [transactionList, setTransactionList] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const id = JSON.parse(localStorage.getItem("user")!);
+  const id = JSON.parse(localStorage.getItem("user")!) || null;
   console.log(id.accountNo);
 
   if (!id) {
