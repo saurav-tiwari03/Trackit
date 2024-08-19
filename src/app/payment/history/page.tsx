@@ -24,7 +24,7 @@ type Transaction = {
 export default function Page() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [transactionList, setTransactionList] = useState<Transaction[]>([]);
+  const [transactionList, setTransactionList] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   const id = JSON.parse(localStorage.getItem("user")!);
@@ -81,8 +81,8 @@ export default function Page() {
           </div>
         )}
         <ul className={`${transactionList.length > 0 ? "border p-8" : ""}`}>
-          {transactionList.map((transaction: Transaction) => (
-            <li key={transaction._id}>{transaction}</li>
+          {transactionList.map((transaction) => (
+            <li key={transaction}>{transaction}</li>
           ))}
         </ul>
       </div>

@@ -61,7 +61,7 @@ export default function Home() {
         </div>
       }
       <div className="flex flex-col items-center gap-4 mt-16">
-        <h1 className="font-Merienda text-5xl">Trackit</h1>
+        <h1 className="font-Merienda font-semibold text-5xl">Trackit</h1>
         <p className="font-Poppins">A real-time web app to manage the flow of exchange</p>
       </div>
       <HoverEffect items={projects} />
