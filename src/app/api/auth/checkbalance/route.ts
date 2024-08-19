@@ -5,8 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 connect();
 
 export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams
   try {
-    const accountNo = req.nextUrl.searchParams.get("accountNo");
+    const accountNo = searchParams.get("accountNo");
 
     if (!accountNo) {
       throw new Error("Account number is required");

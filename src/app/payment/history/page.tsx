@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import {  useState } from "react";
+import { useState, useEffect } from "react";
 import { ImSpinner3 } from "react-icons/im";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -26,19 +26,26 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [transactionList, setTransactionList] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [accountNo, setAccountNo] = useState<string | null>(null);
 
-  const id = JSON.parse(localStorage.getItem("user")!) || null;
-  console.log(id.accountNo);
-
-  if (!id) {
-    router.push("/auth/login");
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const user = JSON.parse(localStorage.getItem("user")!);
+      if (user) {
+        setAccountNo(user.accountNo);
+      } else {
+        router.push("/auth/login");
+      }
+    }
+  }, [router]);
 
   const fetchHistory = async () => {
+    if (!accountNo) return;
+
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/transaction/user?id=${id.accountNo}`
+        `${process.env.NEXT_PUBLIC_API_URL}/transaction/user?id=${accountNo}`
       );
       console.log(response.data.data);
       setTransactionList(response.data.data);

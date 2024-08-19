@@ -5,8 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 connect();
 
 export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams
   try {
-    const id = req.nextUrl.searchParams.get("id");
+    const id = searchParams.get("id");
     if (!id) {
       throw new Error('Id not found');
     }
