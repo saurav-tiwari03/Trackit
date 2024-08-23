@@ -41,7 +41,13 @@ export async function POST(req: NextRequest) {
     user.otp = undefined;
     user.role = undefined;
     user.accountVerified = undefined;
-    return NextResponse.json({ success: true, data: user, message: "Login successful" }, { status: 200 });
+    const res = NextResponse.json({ success: true, data: user, message: "Login successful" }, { status: 200 });
+    res.cookies.set('user',user.email,{
+      httpOnly:true,
+      maxAge:24*60*60,
+      path:'/'
+    })
+    return res;
   } catch (error:any) {
     console.log(error);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
