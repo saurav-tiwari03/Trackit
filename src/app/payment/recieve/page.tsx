@@ -150,7 +150,7 @@ export default function Page() {
               {error && <p className='text-red-400'>{error}</p>}
               {success && <p className='text-green-400'>{success}</p>}
             </div>
-            <div>
+            <div className='flex items-center justify-between w-full'>
               <div>
                 <h1>{balance && `Your current balance is : ${balance}`}</h1>
               </div>
