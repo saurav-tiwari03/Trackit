@@ -6,6 +6,7 @@ interface IUser extends Document {
   role: "admin" | "user";
   email: string;
   password: string;
+  pin:Number;
   balance: number;
   transactions: mongoose.Types.ObjectId[];
   qrCodeUrl?: string | null;
@@ -38,6 +39,10 @@ const userSchema:Schema<IUser> = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  pin:{
+    type: Number,
+    required: true,
   },
   balance: {
     type: Number,
