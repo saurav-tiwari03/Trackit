@@ -19,11 +19,11 @@ export async function POST (req:NextRequest) {
   }
   try {
     const reqData = await req.json();
-    const {name,email,role,password,balance} = reqData;
+    const {name,email,role,password,balance,pin} = reqData;
     const accountNo = accountNumberGenerator();
     const hashedPassword = await bcrypt.hash(password, 10);
     let accountVerifiedToken = (Math.random()).toString(36).substring(2);
-    const user = await User.create({name,accountNo,role,email,password:hashedPassword,balance,accountVerifiedToken});
+    const user = await User.create({name,accountNo,role,email,password:hashedPassword,balance,accountVerifiedToken,pin});
     user.password = null;
 
     const props:Props = {

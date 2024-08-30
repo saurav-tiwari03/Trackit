@@ -15,6 +15,7 @@ export default function Page () {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');  
   const [balance,setBalance] = useState('');
+  const [pin,setPin] = useState('');
   const [loading,setLoading] = useState(false);
   const role = "user"
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function Page () {
     e.preventDefault();
     setLoading(true)
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,{name,email,role,password,balance})
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,{name,email,role,password,balance,pin})
       console.log(response.data)
       const data = response.data
       localStorage.setItem('user',JSON.stringify(data.data))
@@ -62,6 +63,10 @@ export default function Page () {
           <div className="flex items-center gap-2 justify-between w-full">
             <Label>Password</Label>
             <Input className="w-[200px]" placeholder="Enter password" onChange={(e) => setPassword(e.target.value)}/>
+          </div>
+          <div className="flex items-center gap-2 justify-between w-full">
+            <Label>Pin</Label>
+            <Input className="w-[200px]" placeholder="Enter pin" onChange={(e) => setPin(e.target.value)}/>
           </div>
           <div className="flex justify-between w-full items-center">
             <Link href='/auth/login'><Button variant='outline'>Login</Button></Link>
